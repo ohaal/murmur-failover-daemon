@@ -66,13 +66,13 @@ MURMURFAILOVER=/home/murmur/murmur-failover/murmur-failover-daemon.py
 ```
 
 If you want the service to automatically start on boot, run
-`update-rc.d murmur-failover.sh defaults`.
+`update-rc.d murmur-failover.sh defaults`
 
 ### Running the daemon and connecting to the server
 To start the daemon if installed as a service run
-`service murmur-failover-daemon start`.
+`service murmur-failover-daemon start`
 If not installed as a service, go to the folder it was installed and run
-`./murmur-failover-daemon.py`. 
+`./murmur-failover-daemon.py`
 
 To connect to the server, use the hostname configured to point at the multiple
 IP addresses.
@@ -82,4 +82,5 @@ IP addresses.
 Most Mumble clients (or operating systems) will not cycle through the IP
 addresses of hostnames with multiple IP addresses. Windows will work fine, but
 Linux, Android and possibly other operating systems' clients may have trouble
-connecting to the host.
+connecting to the host. A workaround for such clients would be to just use the
+IP or hostname of the main Murmur server.
