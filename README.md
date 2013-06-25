@@ -70,7 +70,8 @@ If you want the service to automatically start on boot, run
 
 ### Running the daemon and connecting to the server
 To start the daemon if installed as a service run
-`service murmur-failover-daemon start`
+`service murmur-failover.sh start`
+
 If not installed as a service, go to the folder it was installed and run
 `./murmur-failover-daemon.py`
 
