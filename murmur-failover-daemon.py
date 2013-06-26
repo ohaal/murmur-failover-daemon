@@ -38,8 +38,8 @@ class cfg():
     # A sync can only occur at the same time as a ping
     SYNC_INTERVAL = int(data['failover']['interval']['sync'])
 
-    # A pingCounter is incremented every time a ping is done, when the counter
-    # reaches PING_COUNT_MAX, the pingCounter will reset, and a sync is done
+    # A pingCount is incremented every time a ping is done, when the counter
+    # reaches PING_COUNT_MAX, the pingCount will reset, and a sync is done
     PING_COUNT_MAX = int(SYNC_INTERVAL / PING_INTERVAL)
 
     # For this reason, the sync interval can not be less than the ping interval
@@ -66,7 +66,7 @@ class MurmurFailover():
         self.do_initial_sync()
 
         upNow = True
-        pingCounter = cfg.PING_COUNT_MAX
+        pingCount = cfg.PING_COUNT_MAX
 
         # Start the infinite daemon loopage!
         while True:
@@ -76,9 +76,9 @@ class MurmurFailover():
                 sleep(1)
                 upNow = self.poll_murmur(cfg.MURMUR_HOST, cfg.MURMUR_PORT)
 
-            # pingCounter exceed PING_COUNT_MAX only if server down when we sync
-            if upNow and pingCounter >= cfg.PING_COUNT_MAX:
-                pingCounter = 0
+            # pingCount exceed PING_COUNT_MAX only if server down when we sync
+            if upNow and pingCount >= cfg.PING_COUNT_MAX:
+                pingCount = 0
                 self.sync_db_and_config()
 
             # ?: Main Murmur has gone from being down, to being up
@@ -132,7 +132,7 @@ class MurmurFailover():
                             .format(murmurExitCode))
                     exit(1)
 
-            pingCounter += 1
+            pingCount += 1
             sleep(cfg.PING_INTERVAL)
 
 
