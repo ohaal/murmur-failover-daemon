@@ -60,7 +60,7 @@ editing the usernames and folder paths in the process.
 #! /bin/sh
 # /etc/init.d/murmur-failover.sh
 PYTHONBIN=/usr/bin/python
-MURMURFAILOVER=/home/murmur/murmur-failover/murmur-failover-daemon.py
+MURMURFAILOVER=/home/murmur/murmur-failover-daemon/murmur-failover-daemon.py
 
 /bin/su - murmur -c "$PYTHONBIN $MURMURFAILOVER $1"
 ```
