@@ -85,3 +85,11 @@ addresses of hostnames with multiple IP addresses. Windows will work fine, but
 Linux, Android and possibly other operating systems' clients may have trouble
 connecting to the host. A workaround for such clients would be to just use the
 IP or hostname of the main Murmur server.
+
+
+## Maintainer
+Oddbjørn Haaland
+
+
+## License
+Licensed under the MIT license (http://opensource.org/licenses/mit-license.html)
