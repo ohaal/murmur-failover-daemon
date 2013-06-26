@@ -85,57 +85,66 @@ class MurmurFailover():
 
             # ?: Main Murmur has gone from being down, to being up
             if upNow and not upLastTime:
-                # -> Kill local Murmur failover process
                 LOG.info("Main Murmur is back up again, killing local failover"
                         " Murmur process")
-                try:
-                    with open(cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_PID) as f:
-                        pid = int(f.readline())
-                except IOError as e:
-                    LOG.error("Couldn't open PID file for reading when"
-                            " attempting to kill local Murmur process. Did you"
-                            " remember to set a pidfile in the main Murmur"
-                            " server's config? Exiting.")
-                    exit(1)
-
-                kill(pid, SIGTERM)
-                sleep(1)
-
-                # Make sure we managed to kill the process, send a SIGKILL
-                try:
-                    kill(pid, SIGKILL)
-                    # Check if the process is still there, OSError if not
-                    kill(pid, 0)
-
-                    # We were unable to kill it, exit the process
-                    LOG.error("Unable to kill failover Murmur process, exiting")
-                    exit(1)
-                except OSError as e:
-                    pass
+                self.kill_failover_murmur()
 
             # ?: Main Murmur has gone from being up, to being down
             elif upLastTime and not upNow:
-                # -> Copy (and replace) .sqlite.bak DB to .sqlite
-                dst = cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_DB
-                src = dst + ".bak"
-                try:
-                    copyfile(src, dst)
-                except IOError as e:
-                    LOG.error("An error occured while preparing the database"
-                            " before starting failover Murmur (no DB found?)")
-                    exit(1)
-                # Start Backup Murmur Server
+                self.prepare_backup_db()
                 LOG.info("Main Murmur went down, starting failover Murmur")
-                murmurExitCode = call(
-                        [cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_EXE, "-v"])
-                if murmurExitCode > 0:
-                    LOG.error("An error occured while trying to start the"
-                            " failover Murmur, exiting. (exit code: {0})"
-                            .format(murmurExitCode))
-                    exit(1)
+                self.start_failover_murmur()
 
             pingCount += 1
             sleep(cfg.PING_INTERVAL)
+
+
+    def prepare_backup_db(self):
+        # -> Copy (and replace) .sqlite.bak DB to .sqlite
+        dst = cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_DB
+        src = dst + ".bak"
+        try:
+            copyfile(src, dst)
+        except IOError as e:
+            LOG.error("An error occured while preparing the database before"
+                    " starting failover Murmur (no DB found?)")
+            exit(1)
+            
+            
+    def start_failover_murmur(self):
+        murmurExitCode = call(
+                [cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_EXE, "-v"])
+        if murmurExitCode > 0:
+            LOG.error("An error occured while trying to start the failover"
+                    " Murmur, exiting. (exit code: {0})"
+                    .format(murmurExitCode))
+            exit(1)
+            
+            
+    def kill_failover_murmur(self):
+        try:
+            with open(cfg.FAILOVER_MURMUR_PATH + cfg.MURMUR_PID) as f:
+                pid = int(f.readline())
+        except IOError as e:
+            LOG.error("Couldn't open PID file for reading when attempting to"
+                    " kill local Murmur process. Did you remember to set a"
+                    " pidfile in the main Murmur server's config? Exiting.")
+            exit(1)
+
+        kill(pid, SIGTERM)
+        sleep(1)
+
+        # Make sure we managed to kill the process, send a SIGKILL
+        try:
+            kill(pid, SIGKILL)
+            # Check if the process is still there, OSError if not
+            kill(pid, 0)
+
+            # We were unable to kill it, exit the process
+            LOG.error("Unable to kill failover Murmur process, exiting")
+            exit(1)
+        except OSError as e:
+            pass
 
 
     # Look for Murmur executable locally, and rsync everything except logs
