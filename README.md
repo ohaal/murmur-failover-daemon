@@ -65,6 +65,8 @@ MURMURFAILOVER=/home/murmur/murmur-failover-daemon/murmur-failover-daemon.py
 /bin/su - murmur -c "$PYTHONBIN $MURMURFAILOVER $1"
 ```
 
+Make the file executable: `chmod +x /etc/init.d/murmur-failover.sh`
+
 If you want the service to automatically start on boot, run
 `update-rc.d murmur-failover.sh defaults`
 
