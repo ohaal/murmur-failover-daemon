@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
-# Author: Oddbjørn Haaland
+# Author: Oddbjørn Haaland (https://github.com/ohaal/murmur-failover-daemon)
 # Licensed under the MIT license
 from os import sep, kill, path, makedirs
 from sys import exit
