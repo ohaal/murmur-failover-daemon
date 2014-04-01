@@ -1,7 +1,9 @@
 murmur-failover-daemon
 ======================
 
-A simple hack utilizing DNS for automatic failover when a Murmur server dies
+A simple hack utilizing DNS for automatic failover when a Murmur server dies, 
+enabling simple and high availability murmur server hosting with the use of two
+servers.
 
 
 ## Requirements
