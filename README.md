@@ -14,20 +14,22 @@ fails, the next server in the list is attempted.
 murmur-failover-daemon works by periodically syncing the database of the master
 over to the slave. Meanwhile constantly pinging the master to see if it is up.
 If the master goes down, the slave is started, and will begin accepting
-connections. Mumble applications which are disconnected from the server will
+connections. Mumble applications which are disconnected from the master will
 naturally try to reconnect to the hostname it was previously connected, and in
 doing so, be directed to the slave, because the master is no longer responding.
-The slave continues to ping the master. When the master is back up, the slave
-kills itself and clients will be redirected back to the master.
+(Note: Seeing as the connection will time out, connection attempts may
+take longer when one of the servers are down or not responding) The slave
+continues to ping the master. When the master is back up, the slave kills
+itself and clients will be redirected back to the master.
 
-Any configuration or database changes made on the slave while the master is
-down will be lost.
+Any configuration or database changes made on the slave will be lost.
 
 
 ## Requirements
 - A server running Murmur (on a static IP)
 - Another server with the same ports open as the first one, different static IP
 - A single hostname configured to point to the two IP addresses of the servers.
+
 A typical zone file could look like this:
 
 ```
@@ -97,8 +99,8 @@ To start the daemon if installed as a service run
 If not installed as a service, go to the folder it was installed and run
 `./murmur-failover-daemon.py`
 
-To connect to the server, use the hostname configured to point at the multiple
-IP addresses.
+To connect to the (now failover protected) server, use the hostname configured
+to point at the multiple IP addresses.
 
 
 ## Known shortcomings
@@ -115,4 +117,4 @@ Oddbjørn Haaland
 
 
 ## License
-Licensed under the MIT license (http://opensource.org/licenses/mit-license.html)
+MIT license (http://opensource.org/licenses/mit-license.html)
