@@ -7,7 +7,7 @@ servers.
 
 
 ## How does it work?
-On most OSs, the Mumble client seems to do a round-robin connection attempt to
+On some OSs, the Mumble client seems to do a round-robin connection attempt to
 each of the IP addresses in the hostname's A record. If the connection attempt
 fails, the next server in the list is attempted.
 
@@ -102,12 +102,13 @@ IP addresses.
 
 
 ## Known shortcomings
-Most Mumble clients (or operating systems) will not cycle through the IP
+Many Mumble clients (or operating systems) will not cycle through the IP
 addresses of hostnames with multiple IP addresses. Windows will work fine, but
 Linux, Android and possibly other operating systems' clients may have trouble
-connecting to the host. A workaround for such clients would be to just use the
+connecting to the host.* A workaround for such clients would be to just use the
 IP or hostname of the master Murmur server.
 
+**This conclusion is old and may be incorrect.*
 
 ## Maintainer
 Oddbjørn Haaland
