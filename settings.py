@@ -21,9 +21,9 @@ data = {
             'path': "/home/murmur/murmur"
         },
         'daemon': { # USE ABSOLUTE PATHS -- Don't put murmur-failover in Murmur
-            'pidpath': "/home/murmur/murmur-failover/murmur-failover.pid",
-            'logpath': "/home/murmur/murmur-failover/murmur-failover.log",
-            'errpath': "/home/murmur/murmur-failover/stderr.log"
+            'pidpath': "/home/murmur/murmur-failover-daemon/murmur-failover.pid",
+            'logpath': "/home/murmur/murmur-failover-daemon/murmur-failover.log",
+            'errpath': "/home/murmur/murmur-failover-daemon/stderr.log"
         },
         'interval': {    # VALUES ARE IN SECONDS
             'ping': 3,   # How often to check if main Murmur is alive
